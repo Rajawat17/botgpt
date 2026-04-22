@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./botgpt.db
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+    volumes:
+      - ./botgpt.db:/app/botgpt.db
+    restart: unless-stopped
+
+  # Optional: swap SQLite for Postgres in production
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: botgpt
+  #     POSTGRES_PASSWORD: secret
+  #     POSTGRES_DB: botgpt
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:
